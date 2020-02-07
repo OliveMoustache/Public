@@ -1,0 +1,22 @@
+// DG to Parallel toggle script v1.0
+// Olivier Ladeuix
+
+SetEvaluationManagerHUDVisibility(1);
+
+string $playState = `play -q -state`;
+print $playState;
+
+if ($playState == 0)
+    { print $playState;
+    evaluationManager -mode parallel; 
+    playButtonForward; 
+    playbackStateChanged;
+    print "======= Playback switched to parallel ========";  }  
+else     {      
+    evaluationManager -mode "off"; 
+    playButtonForward; 
+    playbackStateChanged; 
+    print "Switched to DG";
+
+}
+;
