@@ -1,0 +1,33 @@
+// Mighty Constraint
+// Olivier Ladeuix
+// v1.0
+// How to use:
+// Select object you want to constraint
+// then run the script
+
+string $mighty_const_selection[] = `ls -sl`;
+//string $ObjectSelection[] = `ls -sl -showNamespace`;
+
+spaceLocator -name ("temp_" + $mighty_const_selection[0] + "_mighty_const_A") ;
+spaceLocator -name ("temp_" + $mighty_const_selection[0] + "_mighty_const_B") ;
+
+setAttr "temp_pCube1_mighty_const_B.scaleZ" 10;
+setAttr "temp_pCube1_mighty_const_B.scaleX" 10;
+setAttr "temp_pCube1_mighty_const_B.scaleY" 10;
+
+select -r temp_pCube1_mighty_const_B ;
+select -tgl temp_pCube1_mighty_const_A ;
+parent;
+
+select $mighty_const_selection[0];
+select -add temp_pCube1_mighty_const_A ;
+doCreateParentConstraintArgList 1 { "0","0","0","0","0","0","0","1","","1" };
+parentConstraint -weight 1;
+select -r temp_pCube1_mighty_const_A_parentConstraint1 ;
+doDelete;
+
+select -r temp_pCube1_mighty_const_B ;
+select -add $mighty_const_selection[0];
+doCreateParentConstraintArgList 1 { "0","0","0","0","0","0","0","1","","1" };
+parentConstraint -weight 1;
+select -cl  ;
