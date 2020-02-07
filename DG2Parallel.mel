@@ -1,5 +1,8 @@
 // DG to Parallel toggle script v1.0
 // Olivier Ladeuix
+// Allocated the script to a hotkey
+// When hitting the DG2Parallel hotkey, the script toggles the evaluation from DG to parallel on playback then stops the playback and reverts back to DG when hitting the hotkey again
+// Suggested hotkey: V
 
 SetEvaluationManagerHUDVisibility(1);
 
