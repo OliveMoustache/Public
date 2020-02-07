@@ -4,6 +4,7 @@
 // How to use:
 // Select object you want to constraint
 // then run the script
+// it will create a chain of 2 locators A and B and constraint the select object to the last locator of the chain.
 
 string $mighty_const_selection[] = `ls -sl`;
 //string $ObjectSelection[] = `ls -sl -showNamespace`;
