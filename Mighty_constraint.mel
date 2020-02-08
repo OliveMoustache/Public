@@ -1,31 +1,38 @@
-	// Mighty Constraint
-	// Olivier Ladeuix
-	// v1.0
-	// How to use:
-	// Select object you want to constraint+
-	// then run the script
-	
-	string $mighty_const_selection[] = `ls -sl`;
-	// referenceQuery -namespace `ls -sl`;
-	
-	string $mighty_const_loc_parent = ("temp_" + $mighty_const_selection2[0] + "_mighty_const_A");
-	string $mighty_const_loc_child = ("temp_" + $mighty_const_selection2[0] + "_mighty_const_B");
-	
-	spaceLocator -name $mighty_const_loc_parent ;
-	spaceLocator -name $mighty_const_loc_child ;
-	
-	setAttr ($mighty_const_loc_child+".scaleX") 10 ;
-	setAttr ($mighty_const_loc_child+".scaleY") 10 ;
-	setAttr ($mighty_const_loc_child+".scaleZ") 10 ;
-  parent $mighty_const_loc_child $mighty_const_loc_parent;
-	
-	parentConstraint -name mighty_constraint_temp_parentConstraint $mighty_const_selection[0] $mighty_const_loc_parent ;
+// Mighty Constraint
+// Olivier Ladeuix
 
+// How to use:
+// Select object you want to constraint+
+// then run the script
 
-  select mighty_constraint_temp_parentConstraint;
-  doDelete;
+// v1.0 Original script
+// v1.1 2020 02 08 // Added object selected as variable
+	
+string $mighty_const_selection[] = `ls -sl`;
+// referenceQuery -namespace `ls -sl`;
+	
+string $mighty_const_loc_parent = ("temp_" + $mighty_const_selection2[0] + "_mighty_const_A");
+string $mighty_const_loc_child = ("temp_" + $mighty_const_selection2[0] + "_mighty_const_B");
 
-  parentConstraint -name mighty_constraint_temp_parentConstraint  $mighty_const_loc_child $mighty_const_selection[0];
-  select -cl;
+// Creation of the A/B locators setup	
+spaceLocator -name $mighty_const_loc_parent ;
+spaceLocator -name $mighty_const_loc_child ;
+	
+setAttr ($mighty_const_loc_child+".scaleX") 10 ;
+setAttr ($mighty_const_loc_child+".scaleY") 10 ;
+setAttr ($mighty_const_loc_child+".scaleZ") 10 ;	
+parent $mighty_const_loc_child $mighty_const_loc_parent;
 
-  warning "////////// Mighty constrain process finished //////////";
+// Snapping the constraint setup to the object selection
+parentConstraint -name mighty_constraint_temp_parentConstraint $mighty_const_selection[0] $mighty_const_loc_parent ;
+select mighty_constraint_temp_parentConstraint;
+doDelete;
+
+// Creation of the constraint
+string $mighty_constraint_node_name = ($mighty_const_loc_parent+"_parentConstraint_node");
+parentConstraint -name $mighty_constraint_node_name $mighty_const_loc_child $mighty_const_selection[0];
+select -cl;
+
+string $warning_message_01 = ( "////////// " + $mighty_constraint_node_name +" node created  //////////\n");
+print $warning_message_01;
+print "////////// Mighty constrain process finished //////////";
