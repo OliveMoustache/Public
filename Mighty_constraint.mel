@@ -1,34 +1,31 @@
-// Mighty Constraint
-// Olivier Ladeuix
-// v1.0
-// How to use:
-// Select object you want to constraint
-// then run the script
-// it will create a chain of 2 locators A and B and constraint the select object to the last locator of the chain.
+	// Mighty Constraint
+	// Olivier Ladeuix
+	// v1.0
+	// How to use:
+	// Select object you want to constraint+
+	// then run the script
+	
+	string $mighty_const_selection[] = `ls -sl`;
+	// referenceQuery -namespace `ls -sl`;
+	
+	string $mighty_const_loc_parent = ("temp_" + $mighty_const_selection2[0] + "_mighty_const_A");
+	string $mighty_const_loc_child = ("temp_" + $mighty_const_selection2[0] + "_mighty_const_B");
+	
+	spaceLocator -name $mighty_const_loc_parent ;
+	spaceLocator -name $mighty_const_loc_child ;
+	
+	setAttr ($mighty_const_loc_child+".scaleX") 10 ;
+	setAttr ($mighty_const_loc_child+".scaleY") 10 ;
+	setAttr ($mighty_const_loc_child+".scaleZ") 10 ;
+  parent $mighty_const_loc_child $mighty_const_loc_parent;
+	
+	parentConstraint -name mighty_constraint_temp_parentConstraint $mighty_const_selection[0] $mighty_const_loc_parent ;
 
-string $mighty_const_selection[] = `ls -sl`;
-//string $ObjectSelection[] = `ls -sl -showNamespace`;
 
-spaceLocator -name ("temp_" + $mighty_const_selection[0] + "_mighty_const_A") ;
-spaceLocator -name ("temp_" + $mighty_const_selection[0] + "_mighty_const_B") ;
+  select mighty_constraint_temp_parentConstraint;
+  doDelete;
 
-setAttr "temp_pCube1_mighty_const_B.scaleZ" 10;
-setAttr "temp_pCube1_mighty_const_B.scaleX" 10;
-setAttr "temp_pCube1_mighty_const_B.scaleY" 10;
+  parentConstraint -name mighty_constraint_temp_parentConstraint  $mighty_const_loc_child $mighty_const_selection[0];
+  select -cl;
 
-select -r temp_pCube1_mighty_const_B ;
-select -tgl temp_pCube1_mighty_const_A ;
-parent;
-
-select $mighty_const_selection[0];
-select -add temp_pCube1_mighty_const_A ;
-doCreateParentConstraintArgList 1 { "0","0","0","0","0","0","0","1","","1" };
-parentConstraint -weight 1;
-select -r temp_pCube1_mighty_const_A_parentConstraint1 ;
-doDelete;
-
-select -r temp_pCube1_mighty_const_B ;
-select -add $mighty_const_selection[0];
-doCreateParentConstraintArgList 1 { "0","0","0","0","0","0","0","1","","1" };
-parentConstraint -weight 1;
-select -cl  ;
+  warning "////////// Mighty constrain process finished //////////";
