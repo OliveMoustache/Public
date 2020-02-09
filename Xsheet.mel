@@ -1,0 +1,16 @@
+// Xsheet by Olivier Ladeuix
+// Displays the amount of frames separating the current time from the previous key.
+// when working in step, this could be considered as the amount of frames for which the last pose is exposed.
+
+headsUpDisplay -section 1 -block 0 -blockSize "medium" -label "Previous keyframe :" 
+ -labelFontSize "large" -command "calcPreviousKeyframe()" -event "timeChanged" HUDPreviousKeyframe;
+ 
+ proc float calcPreviousKeyframe()
+ {
+ if (size(keyframe("-time", currentTime("-q"),"-query")))
+ {
+ return 0;
+ }
+ else
+ return (`currentTime -q` - `findKeyframe -timeSlider -which previous`);
+ }
