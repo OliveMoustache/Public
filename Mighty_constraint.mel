@@ -1,38 +1,72 @@
-// Mighty Constraint
-// Olivier Ladeuix
+// Following are elements to quickly select stuff
+// select -r doorLatchA_004:POSITION;
+// select lf_track:lfTrack_anim_curve;
+// select doorLatchA_004:POSITION;
 
-// How to use:
-// Select object you want to constraint+
-// then run the script
 
-// v1.0 Original script
-// v1.1 2020 02 08 // Added object selected as variable
-	
-string $mighty_const_selection[] = `ls -sl`;
-// referenceQuery -namespace `ls -sl`;
-	
-string $mighty_const_loc_parent = ("temp_" + $mighty_const_selection2[0] + "_mighty_const_A");
-string $mighty_const_loc_child = ("temp_" + $mighty_const_selection2[0] + "_mighty_const_B");
+///////////// Start of the script /////////////////////////////////////////
+// Variable declaration
+// Those are the variable we will need to change with the GUI or manually
+global string $mighty_track_const_claw = "doorLatchA_006:POSITION";
+global string $mighty_track_const_door = "doorHumanF_001:POSITION";
 
-// Creation of the A/B locators setup	
-spaceLocator -name $mighty_const_loc_parent ;
-spaceLocator -name $mighty_const_loc_child ;
-	
-setAttr ($mighty_const_loc_child+".scaleX") 10 ;
-setAttr ($mighty_const_loc_child+".scaleY") 10 ;
-setAttr ($mighty_const_loc_child+".scaleZ") 10 ;	
-parent $mighty_const_loc_child $mighty_const_loc_parent;
+// Getting the namespace of the door and latch
+string $bufferClaw[];
+tokenize $mighty_track_const_claw ":" $bufferClaw;
+$mighty_track_const_claw = $bufferClaw[0];
+print $mighty_track_const_claw;
 
-// Snapping the constraint setup to the object selection
-parentConstraint -name mighty_constraint_temp_parentConstraint $mighty_const_selection[0] $mighty_const_loc_parent ;
-select mighty_constraint_temp_parentConstraint;
-doDelete;
+string $bufferDoor[];
+tokenize $mighty_track_const_door ":" $bufferDoor;
+$mighty_track_const_door = $bufferDoor[0];
+print $mighty_track_const_door;
 
-// Creation of the constraint
-string $mighty_constraint_node_name = ($mighty_const_loc_parent+"_parentConstraint_node");
-parentConstraint -name $mighty_constraint_node_name $mighty_const_loc_child $mighty_const_selection[0];
-select -cl;
 
-string $warning_message_01 = ( "////////// " + $mighty_constraint_node_name +" node created  //////////\n");
-print $warning_message_01;
-print "////////// Mighty constrain process finished //////////";
+
+// Procedure constraint Claw to spline
+    // Disable the dynamics
+    // setAttr "doorLatchA_004:body_mainCtrl.active" 0;    
+    // setAttr "doorLatchA_004:base_mainCtrl.active" 0;
+        setAttr ($mighty_track_const_claw + ":body_mainCtrl.active") 0 ;
+        setAttr ($mighty_track_const_claw + ":base_mainCtrl.active") 0 ;       
+  
+    // constratin the latch (claw) to lfTrack  //  (do not forget to increment or rename with variable?)
+
+// working with no names
+    select -r ($mighty_track_const_claw + ":POSITION"); 
+    select -tgl lf_track:lfTrack_anim_curve ;
+    pathAnimation -fractionMode true -follow true -followAxis z -upAxis y -worldUpType "vector" -worldUpVector 0 1 0 -inverseUp false -inverseFront false -bank false -startTimeU `playbackOptions -query -minTime` -endTimeU  `playbackOptions -query -maxTime` ;
+        // not working with names at the end
+        // pathAnimation -fractionMode true -follow true -followAxis z -upAxis y -worldUpType "vector" -worldUpVector 0 1 0 -inverseUp false -inverseFront false -bank false -startTimeU `playbackOptions -query -minTime` -endTimeU  `playbackOptions -query -maxTime` lf_track:lfTrack_anim_curve doorLatchA_004:POSITION;
+   
+    // offset the traj attribute
+    setAttr ($mighty_track_const_claw+":TRAJ.translateY") -11.5;
+
+
+// Procedure Constraint door to Claw // Beware, doors are alphabetical variation from A to Z
+    // disable the dynamics
+
+    
+    // snap door to the latch (do not forget to increment or rename with variable?)
+    parentConstraint -name ("mighty_CST_" + $mighty_track_const_door + "_to_" + $mighty_track_const_claw)   ($mighty_track_const_claw +":base_mainCtrl") ($mighty_track_const_door + ":POSITION");    
+
+    // kill the temporary parent constraint
+    select -r ("mighty_CST_" + $mighty_track_const_door + "_to_" + $mighty_track_const_claw) ;
+    doDelete;
+    
+    // reorient the door
+    setAttr ($mighty_track_const_door + ":POSITION.rotateZ") 0;
+    setAttr ($mighty_track_const_door + ":POSITION.rotateX") 0;
+    
+    // shift the door main to align the door to the latch
+    setAttr ($mighty_track_const_door + ":body_mainCtrl.translateX") 259.995;
+    setAttr ($mighty_track_const_door + ":body_mainCtrl.translateY") 0.425;
+    
+    // Set rotation order to yxz
+    setAttr ($mighty_track_const_door + ":TRAJ.rotateOrder") 4;
+    
+    // create the constraint  (do not forget to increment or rename with variable?)
+    parentConstraint -mo -name ("mighty_CST_" + $mighty_track_const_door + "_to_" + $mighty_track_const_claw) ($mighty_track_const_claw + ":axeRot_mainCtrl") ($mighty_track_const_door + ":POSITION") ;
+    
+    // Restart dynamic on the base_mainCtrl
+    setAttr ($mighty_track_const_claw + ":base_mainCtrl.active") 1;
