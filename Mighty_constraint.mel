@@ -1,14 +1,17 @@
 // Following are elements to quickly select stuff
-// select -r doorLatchA_004:POSITION;
 // select lf_track:lfTrack_anim_curve;
-// select doorLatchA_004:POSITION;
+// select doorLatchA_007:POSITION;
+// select doorHumanI_001:body_mainCtrl;
 
 
-///////////// Start of the script /////////////////////////////////////////
+
+
+global proc mighty_CST()    {
+
 // Variable declaration
 // Those are the variable we will need to change with the GUI or manually
-global string $mighty_track_const_claw = "doorLatchA_006:POSITION";
-global string $mighty_track_const_door = "doorHumanF_001:POSITION";
+global string $mighty_track_const_claw; // = "doorLatchA_006:POSITION";
+global string $mighty_track_const_door; // = "doorHumanF_001:POSITION";
 
 // Getting the namespace of the door and latch
 string $bufferClaw[];
@@ -25,8 +28,6 @@ print $mighty_track_const_door;
 
 // Procedure constraint Claw to spline
     // Disable the dynamics
-    // setAttr "doorLatchA_004:body_mainCtrl.active" 0;    
-    // setAttr "doorLatchA_004:base_mainCtrl.active" 0;
         setAttr ($mighty_track_const_claw + ":body_mainCtrl.active") 0 ;
         setAttr ($mighty_track_const_claw + ":base_mainCtrl.active") 0 ;       
   
@@ -45,7 +46,6 @@ print $mighty_track_const_door;
 
 // Procedure Constraint door to Claw // Beware, doors are alphabetical variation from A to Z
     // disable the dynamics
-
     
     // snap door to the latch (do not forget to increment or rename with variable?)
     parentConstraint -name ("mighty_CST_" + $mighty_track_const_door + "_to_" + $mighty_track_const_claw)   ($mighty_track_const_claw +":base_mainCtrl") ($mighty_track_const_door + ":POSITION");    
@@ -70,3 +70,69 @@ print $mighty_track_const_door;
     
     // Restart dynamic on the base_mainCtrl
     setAttr ($mighty_track_const_claw + ":base_mainCtrl.active") 1;
+}
+
+
+
+
+
+// Main global proc that create the UI
+global proc buildUI() {
+        // create the Claw Constraints Creator GUI
+        if (`window -exists guiClawConstraints`) deleteUI guiClawConstraints;
+        if (`windowPref -exists guiClawConstraints`) windowPref -remove guiClawConstraints;
+        window -title "Claw_CST_creator" -widthHeight 253 310 guiClawConstraints;
+    string $mightyBlastOutputFolder = "/servers/RHS/SHOWS/460M/460M-Episodes/General/Animation/Misc/Adriana/DenisGROUP/Dailies/";
+                        
+                        // Get file name
+                        string $mightyBlastCurrentFileName;
+                        $mightyBlastCurrentFileName = `file -q -sn -shn`;
+                        print ($mightyBlastCurrentFileName + "\n");    
+                        
+                        
+                            // create the Squetch Creator GUI
+                            if (`window -exists guiBlastCreator`) deleteUI guiBlastCreator;
+                            if (`windowPref -exists guiBlastCreator`) windowPref -remove guiBlastCreator;
+                            window -title "Mighty Blast" -widthHeight 253 310 guiBlastCreator;
+                    
+                            // define the layout of controls added
+                            // to the window.
+                            // columnLayout;
+                            columnLayout -columnAttach "both" 5 -rowSpacing 5 -columnWidth 248;
+                    
+                            picture -image "/servers/RHS/SHOWS/460M/460M-Episodes/General/Animation/Scripts_installs/Animation/Mighty_CST/mighty_CST_icon.jpg";
+
+                        frameLayout -label "DOOR AND CLAW INPUT";
+
+                        
+
+                            // Claw text field  user entry
+                            text -al left -label "Copy paste the name of the Claw";
+                            textField clawTextFieldName;  
+                            textField -edit clawTextFieldName;
+                            $mighty_track_const_claw = `textField -q -text clawTextFieldName`;
+
+
+                            // Door text field user entry
+                            text -al left -label "Copy paste the name of the Door";
+                            textField doorTextFieldName;  
+                            textField -edit doorTextFieldName;
+                            $mighty_track_const_door = `textField -q -text doorTextFieldName`;
+
+                            // mighty blast execute
+                            // old Blast button colour dark blue
+                            // button -label "Blast" -command "MightyBlastExecute"  -annotation "Playbast" -bgc 0.211 0.223 0.490 ;
+                            // new colour orange to match the Mighty squetch
+                            button -label "Mighty Constraint" -command "mighty_CST"  -annotation "Mighty Constraint" -bgc 0.859 0.314 0.135 ;
+              
+                            // show the window we last created
+                            showWindow;   
+                    
+                            // end of Squetch GUI creation script
+   
+        
+}
+
+
+// Call the main global proc that create the UI
+buildUI();
