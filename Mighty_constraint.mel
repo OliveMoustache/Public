@@ -4,6 +4,7 @@
 // How to use:
 // Select object you want to constraint+
 // then run the script
+// the choosen object shouldn't already have a constraint
 
 // v1.0 Original script
 // v1.1 2020 02 08 // Added object selected as variable
@@ -11,8 +12,8 @@
 string $mighty_const_selection[] = `ls -sl`;
 // referenceQuery -namespace `ls -sl`;
 	
-string $mighty_const_loc_parent = ("temp_" + $mighty_const_selection2[0] + "_mighty_const_A");
-string $mighty_const_loc_child = ("temp_" + $mighty_const_selection2[0] + "_mighty_const_B");
+string $mighty_const_loc_parent = ("temp_" + $mighty_const_selection[0] + "_mighty_const_A");
+string $mighty_const_loc_child = ("temp_" + $mighty_const_selection[0] + "_mighty_const_B");
 
 // Creation of the A/B locators setup	
 spaceLocator -name $mighty_const_loc_parent ;
