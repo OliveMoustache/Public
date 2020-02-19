@@ -8,6 +8,7 @@
 
 // v1.0 Original script
 // v1.1 2020 02 08 // Added object selected as variable
+// v1.2 2020 02 18 // Fixed some variable naming issues
 	
 string $mighty_const_selection[] = `ls -sl`;
 // referenceQuery -namespace `ls -sl`;
