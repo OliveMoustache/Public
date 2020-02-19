@@ -1,2 +1,2 @@
 string $panel = `getPanel -wf`; 
-modelEditor -e -nurbsCurves (!`modelEditor -q -nurbsCurves $panel`) $panel; 
+modelEditor -e -polymeshes (!`modelEditor -q -polymeshes $panel`) $panel; 
