@@ -9,11 +9,14 @@
 // - When hitting the DG2Parallel hotkey, the script toggles the evaluation from DG to parallel on playback then stops the playback and reverts back to DG when hitting the hotkey again.
 // - For better understanding of the mode used, the evaluation state appears on the Head Up Display (HUD) in the viewport.
 
+// Runtime command: mighty_DG2Parallel()
 // Suggested hotkey: shift + v 
 // v for regular playback toggle
 // see http://www.olivier-ladeuix.com/blog/2013/05/25/rethinking-mayas-hotkeys-for-animation/
 
-proc mighty_DG2Parallel.mel()
+
+
+global proc mighty_DG2Parallel()
 
 {
 
