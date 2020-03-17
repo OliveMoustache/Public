@@ -1,2 +1,3 @@
+// ideal hotkey: alt + g (geometry)
 string $panel = `getPanel -wf`; 
 modelEditor -e -polymeshes (!`modelEditor -q -polymeshes $panel`) $panel; 
