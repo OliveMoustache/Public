@@ -1,2 +1,3 @@
+// Ideal hotkey alt + c (curves)
 string $panel = `getPanel -wf`; 
 modelEditor -e -nurbsCurves (!`modelEditor -q -nurbsCurves $panel`) $panel; 
