@@ -13,7 +13,9 @@
 // v for regular playback toggle
 // see http://www.olivier-ladeuix.com/blog/2013/05/25/rethinking-mayas-hotkeys-for-animation/
 
+proc mighty_DG2Parallel.mel()
 
+{
 
 SetEvaluationManagerHUDVisibility(1);
 
@@ -34,3 +36,4 @@ else     {
 
 }
 ;
+}
