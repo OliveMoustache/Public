@@ -1,0 +1,33 @@
+// Mighty Wires deformer toggle script
+// Olivier Ladeuix
+// v1.0 == 2020/05/05  
+  
+{ 
+// variables declaration
+$nodes = {"wire3","wire4","wire5","wire6","wire9","wire10"};
+
+string $namespace_selection[];
+int $SquadWireAttr;
+$selectionArray = `ls -sl -fl`;
+tokenize $selectionArray[0] ":" $namespace_selection;
+
+$SquadWireAttr = `getAttr "Robin:wire3.envelope"` ;
+
+if ($SquadWireAttr == 1)
+    {
+        for( $node in $nodes ) {
+            setAttr ($namespace_selection[0] + ":" + $node + ".envelope") 0;
+			print( $node + " disabled \n" );
+    		};
+    print "/// Wires disabled ///";
+    }
+else
+    {
+        for( $node in $nodes ) {
+            setAttr ($namespace_selection[0] + ":" + $node + ".envelope") 1;
+			print( $node + " enabled \n" );
+    		};
+
+    print "/// Wires enabled ///";  
+        }  ;    
+}
