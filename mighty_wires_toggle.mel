@@ -1,6 +1,10 @@
-// Mighty Wires deformer toggle script
+// Wires deformer toggle script
 // Olivier Ladeuix
 // v1.0 == 2020/05/05  
+// to be used with the AnimSquad rigs
+// save it in your Script folder or just drag it on your shelf
+
+// To use it, just select one of the controls to grab the namespace, then launch the script ideally through a button or hotkey
   
 { 
 // variables declaration
@@ -11,7 +15,14 @@ int $SquadWireAttr;
 $selectionArray = `ls -sl -fl`;
 tokenize $selectionArray[0] ":" $namespace_selection;
 
-$SquadWireAttr = `getAttr "Robin:wire3.envelope"` ;
+$SquadWireAttr = `getAttr ($namespace_selection[0] + ":wire3.envelope")` ;
+
+// headsUpDisplay -nc -section 1 -block 0 -blockSize "medium" -label "Wires :" + $SquadWireAttr) -labelFontSize "large" HUDwiresVis;
+headsUpDisplay -rem HUDwiresVis;
+headsUpDisplay  -section 1 -block 0 -blockSize "medium" -label "Wires : Enabled" -labelFontSize "large"  HUDwiresVis;
+
+
+
 
 if ($SquadWireAttr == 1)
     {
@@ -20,6 +31,8 @@ if ($SquadWireAttr == 1)
 			print( $node + " disabled \n" );
     		};
     print "/// Wires disabled ///";
+    headsUpDisplay -rem HUDwiresVis;
+    headsUpDisplay -section 1 -block 0 -blockSize "medium" -label "Wires : Disabled" -labelFontSize "large"  HUDwiresVis;
     }
 else
     {
@@ -29,5 +42,8 @@ else
     		};
 
     print "/// Wires enabled ///";  
+    headsUpDisplay -rem HUDwiresVis;
+    headsUpDisplay -section 1 -block 0 -blockSize "medium" -label "Wires : enabled" -labelFontSize "large"  HUDwiresVis;
         }  ;    
 }
+
