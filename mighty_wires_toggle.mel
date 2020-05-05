@@ -1,5 +1,6 @@
 // Wires deformer toggle script
 // Olivier Ladeuix
+// v1.1 == modified the tokenize command line 
 // v1.0 == 2020/05/05  
 // to be used with the AnimSquad rigs
 // save it in your Script folder or just drag it on your shelf
@@ -15,9 +16,17 @@ $nodes = {"wire3","wire4","wire5","wire6","wire9","wire10"};
 string $namespace_selection[];
 int $SquadWireAttr;
 
+/*
+{$selectionArray = `ls -sl -fl`;
+string $newArray [];
+tokenize $selectionArray[0] ":" $newArray;
+print $newArray[0];
+}
+*/
+
 // Selection grabber and namespace identification
 $selectionArray = `ls -sl -fl`;
-tokenize $selectionArray[0] ":" $namespace_selection;
+tokenize ($selectionArray[0], ":", $namespace_selection);
 
 // Capturing the current state of wire3
 $SquadWireAttr = `getAttr ($namespace_selection[0] + ":wire3.envelope")` ;
@@ -53,4 +62,3 @@ else
 }
 
 // End of the script
-
