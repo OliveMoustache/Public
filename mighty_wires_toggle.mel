@@ -5,25 +5,28 @@
 // save it in your Script folder or just drag it on your shelf
 
 // To use it, just select one of the controls to grab the namespace, then launch the script ideally through a button or hotkey
-  
-{ 
-// variables declaration
-$nodes = {"wire3","wire4","wire5","wire6","wire9","wire10"};
 
+
+// Start of the script
+{ 
+// Variables declaration
+// Declaration of wires deformers to toggle as an array
+$nodes = {"wire3","wire4","wire5","wire6","wire9","wire10"};
 string $namespace_selection[];
 int $SquadWireAttr;
+
+// Selection grabber and namespace identification
 $selectionArray = `ls -sl -fl`;
 tokenize $selectionArray[0] ":" $namespace_selection;
 
+// Capturing the current state of wire3
 $SquadWireAttr = `getAttr ($namespace_selection[0] + ":wire3.envelope")` ;
 
-// headsUpDisplay -nc -section 1 -block 0 -blockSize "medium" -label "Wires :" + $SquadWireAttr) -labelFontSize "large" HUDwiresVis;
+// Creation of the head up display. We start by deleting any existing Wies HUD
 headsUpDisplay -rem HUDwiresVis;
 headsUpDisplay  -section 1 -block 0 -blockSize "medium" -label "Wires : Enabled" -labelFontSize "large"  HUDwiresVis;
 
-
-
-
+// Start of the toggle function and loop through the array
 if ($SquadWireAttr == 1)
     {
         for( $node in $nodes ) {
@@ -31,6 +34,7 @@ if ($SquadWireAttr == 1)
 			print( $node + " disabled \n" );
     		};
     print "/// Wires disabled ///";
+    // Updating the Wires HUD
     headsUpDisplay -rem HUDwiresVis;
     headsUpDisplay -section 1 -block 0 -blockSize "medium" -label "Wires : Disabled" -labelFontSize "large"  HUDwiresVis;
     }
@@ -42,8 +46,11 @@ else
     		};
 
     print "/// Wires enabled ///";  
+    // Updating the Wires HUD
     headsUpDisplay -rem HUDwiresVis;
     headsUpDisplay -section 1 -block 0 -blockSize "medium" -label "Wires : enabled" -labelFontSize "large"  HUDwiresVis;
         }  ;    
 }
+
+// End of the script
 
