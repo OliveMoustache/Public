@@ -17,14 +17,6 @@ string $selectionArray[];
 string $namespace_selection[];
 int $SquadWireAttr;
 
-/*
-{$selectionArray = `ls -sl -fl`;
-string $newArray [];
-tokenize $selectionArray[0] ":" $newArray;
-print $newArray[0];
-}
-*/
-
 // Selection grabber and namespace identification
 $selectionArray = `ls -sl -fl`;
 tokenize ($selectionArray[0], ":", $namespace_selection);
