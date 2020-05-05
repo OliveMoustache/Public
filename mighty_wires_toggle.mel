@@ -13,6 +13,7 @@
 // Variables declaration
 // Declaration of wires deformers to toggle as an array
 $nodes = {"wire3","wire4","wire5","wire6","wire9","wire10"};
+string $selectionArray[];
 string $namespace_selection[];
 int $SquadWireAttr;
 
@@ -57,7 +58,7 @@ else
     print "/// Wires enabled ///";  
     // Updating the Wires HUD
     headsUpDisplay -rem HUDwiresVis;
-    headsUpDisplay -section 1 -block 0 -blockSize "medium" -label "Wires : enabled" -labelFontSize "large"  HUDwiresVis;
+    headsUpDisplay -section 1 -block 0 -blockSize "medium" -label "Wires : Enabled" -labelFontSize "large"  HUDwiresVis;
         }  ;    
 }
 
