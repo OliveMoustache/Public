@@ -1,0 +1,44 @@
+// Mighty SSS diplayShader v1
+// 2020/5/8
+// Author:
+// Olivier Ladeuix
+
+// Aim of the script:
+// When doing "look dev" in a shot with Arnod SSS, the character's skin will become totaly black and difficult to read in the viewport
+// so this will become an issue if you want to keep animating  
+// This is a display shader toggle in circumstances where you want to switch between a render shader with SSS for example, to a more viewport
+// friendly shader for the animators for example.
+
+// Requirements:
+// The script requires your nodes to be called as in the following naming convention :
+// Have the display friendly shader called similarly to : Alfred_skin_Lambert
+// Have the render friendly shader called similarly to : Alfred_skin_SSS
+
+// You put the name of the characters or objects you want to switch in the 
+// $sceneCharacterArray[] array
+
+
+
+{
+// Start of the script
+
+// Creation of a specific global variable to store the state of the display shader display
+global int $toggleDisplayShaderValue;
+
+// Creation of the switch array
+// This is where you would put the name of the characters whose display shader you want to switch
+string $sceneCharacterArray[] = {"Robin","Alfred"};
+
+if ($toggleDisplayShaderValue == 0 ) {
+        for ($nodes in $sceneCharacterArray ) {
+            connectAttr -f ($nodes + "_skin_SSS.outColor") ($nodes + "_display_shader.surfaceShader");
+            $toggleDisplayShaderValue  = 1;
+            };
+        }
+        else {
+        for ($nodes in $sceneCharacterArray ) {
+            connectAttr -f ($nodes + "_skin_Lambert.outColor") ($nodes + "_display_shader.surfaceShader");
+            $toggleDisplayShaderValue  = 0;
+            };
+        }
+}
