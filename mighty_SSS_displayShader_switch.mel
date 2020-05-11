@@ -3,6 +3,12 @@
 // Author:
 // Olivier Ladeuix
 
+
+// [update] 2020 05 11
+// I just realised that shaders can now have both, a viewport AND a render shaders plugged in ;-)
+// This should still be an interesting read for anyone wanting to learn scripting
+
+
 // Aim of the script:
 // When doing "look dev" in a shot with Arnod SSS, the character's skin will become totaly black and difficult to read in the viewport
 // so this will become an issue if you want to keep animating  
