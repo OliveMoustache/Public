@@ -1,0 +1,59 @@
+// Script to switch from local orient to world orient with a bake
+
+/////////// Requirements //////////////////////
+// 1. You need to have the full frame range viible
+// 2. Start by selecting the control you want to switch
+////////////////////////////////
+
+// Make a variable from the selection 
+string $mighty_globalSwitch_selection[] = `ls -sl`;
+
+// Get the frame range and go to the start of the range
+float $minTime = `playbackOptions -q -minTime`;
+currentTime $minTime ;
+
+// We could use this in the future to generate a shorter name
+// referenceQuery -namespace `ls -sl`;
+
+// Locator name creation
+string $mighty_globalSwitch_loc = ("temp_" + $mighty_globalSwitch_selection[0] + "_mighty_globalSwitch_locator");
+
+// Creation of the locator
+spaceLocator -name $mighty_globalSwitch_loc ;
+
+setAttr ($mighty_globalSwitch_loc+".scaleX") 20 ;
+setAttr ($mighty_globalSwitch_loc+".scaleY") 20 ;
+setAttr ($mighty_globalSwitch_loc+".scaleZ") 20 ;
+
+
+// Constraint the locator to the object selection for locator baking
+parentConstraint -name mighty_constraint_temp_parentConstraint $mighty_globalSwitch_selection[0] $mighty_globalSwitch_loc ;
+
+
+// Bake the locator and delete the constraint
+bakeResults -simulation true -t "1:31" -sampleBy 1 -oversamplingRate 1 -disableImplicitControl true -preserveOutsideKeys true -sparseAnimCurveBake false -removeBakedAttributeFromLayer false -removeBakedAnimFromLayer false -bakeOnOverrideLayer false -minimizeRotation true -controlPoints false -shape true {"temp_Rosie:FKHead_M_CTRL_mighty_globalSwitch_locator"};
+
+
+select mighty_constraint_temp_parentConstraint;
+doDelete;
+
+
+// Constraint the object to the locator for object baking
+string $mighty_constraint_child_name = ( $mighty_globalSwitch_selection[0] + "_parentConstraint_node");
+parentConstraint -name $mighty_constraint_child_name $mighty_globalSwitch_loc $mighty_globalSwitch_selection[0];
+select $mighty_globalSwitch_selection[0];
+// Switch the global attribute to Global (World orient)
+
+cutKey -t ":" -f ":" -at "Global" $mighty_globalSwitch_selection[0];
+setAttr ($mighty_globalSwitch_selection[0] + ".Global") 10 ;
+setKeyframe ($mighty_globalSwitch_selection[0] + ".Global");
+// setKeyframe -breakdown 0 -preserveCurveShape 0 -hierarchy none  -at "blendParent1" Rosie:FKHead_M_CTRL;
+bakeResults -simulation true -t "1:31" -sampleBy 1 -oversamplingRate 1 -disableImplicitControl true -preserveOutsideKeys true -sparseAnimCurveBake false -removeBakedAttributeFromLayer false -removeBakedAnimFromLayer false -bakeOnOverrideLayer false -minimizeRotation true -controlPoints false -shape true {"temp_Rosie:FKHead_M_CTRL_mighty_globalSwitch_locator"};
+
+delete $mighty_constraint_child_name;
+delete $mighty_globalSwitch_loc;
+
+
+print "////////// Mighty constrain process finished //////////";
+
+
