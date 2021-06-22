@@ -1,10 +1,11 @@
 // Mighty Constraint
-// Olivier Ladeuix
+// by Olivier Ladeuix
 
 // How to use:
-// Select object you want to constraint+
+// Select the object you want to constraint to the AB locator setup
 // then run the script
 // the choosen object shouldn't already have a constraint
+// In the next update you will select the Parent object AND the child object
 
 // v1.0 Original script
 // v1.1 2020 02 08 // Added object selected as variable
@@ -27,12 +28,12 @@ parent $mighty_const_loc_child $mighty_const_loc_parent;
 
 // Snapping the constraint setup to the object selection
 parentConstraint -name mighty_constraint_temp_parentConstraint $mighty_const_selection[0] $mighty_const_loc_parent ;
-select mighty_constraint_temp_parentConstraint;
-doDelete;
+delete mighty_constraint_temp_parentConstraint;
 
 // Creation of the constraint
 string $mighty_constraint_node_name = ($mighty_const_loc_parent+"_parentConstraint_node");
 parentConstraint -name $mighty_constraint_node_name $mighty_const_loc_child $mighty_const_selection[0];
+// It would be good to also parent Locator A to a parent object using the -mo flag
 select -cl;
 
 string $warning_message_01 = ( "////////// " + $mighty_constraint_node_name +" node created  //////////\n");
