@@ -3,7 +3,7 @@
 // v1.0 2021 06 22
 
 // This script is to switch a control from local orient to world orient 
-// through baking. This script was tested successfully on Rosie
+// through baking. This script was tested successfully on Rosie's head.
 
 /////////// Requirements //////////////////////
 // 1. You need to have the full frame range viible
