@@ -10,6 +10,9 @@
 // 2. Select the control you want to mighty switch first. Only one at a time
 ////////////////////////////////
 
+global proc mighty_World_switch() {    
+
+
 // Make a variable from the selection 
 string $mighty_World_switch_selection[] = `ls -sl`;
 print ("Object selected is : " + $mighty_World_switch_selection[0]);
@@ -26,9 +29,9 @@ currentTime $minTime ;
 // Creation of the locator
 spaceLocator -name mighty_World_switch_TEMP_locator ;
 
-setAttr ($mighty_World_switch_loc+".scaleX") 20 ;
-setAttr ($mighty_World_switch_loc+".scaleY") 20 ;
-setAttr ($mighty_World_switch_loc+".scaleZ") 20 ;
+setAttr "mighty_World_switch_TEMP_locator.scaleX" 20 ;
+setAttr "mighty_World_switch_TEMP_locator.scaleY" 20 ;
+setAttr "mighty_World_switch_TEMP_locator.scaleZ" 20 ;
 
 // Constraint the locator to the object selection for locator baking
 parentConstraint -name mighty_constraint_TEMP_parentConstraint $mighty_World_switch_selection[0] mighty_World_switch_TEMP_locator  ;
@@ -61,5 +64,8 @@ delete mighty_constraint_TEMP_parentConstraint_B;
 delete mighty_World_switch_TEMP_locator ;
 
 print "\n////////// Mighty World switch completed //////////";
+
+
+};
 
 
