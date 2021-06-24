@@ -1,6 +1,19 @@
-gpuCache -startTime 1 -endTime 31 -optimize -optimizationThreshold 40000 -writeMaterials -dataFormat ogawa
- -directory "C:/Users/artiste/Documents/maya/projects/default/cache/alembic" -fileName "BDG_205_22_Rosie" Rosie:Geometries;
+float $minTime = `playbackOptions -q -minTime`;
+float $maxTime = `playbackOptions -q -maxTime`;
+
+{
+string $mighty_GPU_generator_selection[] = `ls -sl`;
+// referenceQuery -namespace `ls -sl`;
+print ("Object selected is : " +  $mighty_GPU_generator_selection[0]);
+}
+  
+gpuCache -startTime ($minTime) -endTime ($maxTime) -optimize -optimizationThreshold 40000 -writeMaterials -dataFormat ogawa
+ -directory "/alembic" -fileName "BDG_205_22_Rosie" Rosie:Geometries;
  
 file -unloadReference "RosieRN" "N:/02_SAISON_2/03_FABRICATION/ASSETS/Character/Rosie/rigging/pub/BDG__Character__Rosie__rigging.ma";
 
 file -import "C:/Users/artiste/Documents/maya/projects/default/cache/alembic/BDG_205_22_Rosie.abc";
+
+
+string $mighty_World_switch_selection[] = `ls -sl`;
+print ("Object selected is : " + $mighty_World_switch_selection[0]);
