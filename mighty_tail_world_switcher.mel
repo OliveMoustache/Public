@@ -15,6 +15,10 @@
 //           mighty_tail_world_switch_locator_A and mighty_tail_world_switch_locator_B  
 ////////////////////////////////
 
+// Possible improvements :
+// add the namespace to the locator and constraints names.
+////////
+
 CHANGELOG:
 2021 06 27    v1.0 
 2021 06 28
@@ -69,7 +73,7 @@ parentConstraint -mo -weight 1 -name mighty_TWS_Const_to_Root ($charName[0] + ":
 parentConstraint -weight 1 -name mighty_TWS_Const_to_TWS_FK_CTRL mighty_TWS_FK_CTRL $mighty_World_switch_selection[0] ;
 
 // Done
-print "/////// Mighty Tail World switch control created ///////// "
+print "/////// Mighty Tail World switch control created ///////// ";
 
 }
 
