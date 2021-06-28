@@ -9,8 +9,10 @@
 /////////// How to use  //////////////////////
 // 1. Ideally you want to orient the main and placement controls to the world before starting the script
 //        just so the new control is align to the world in default pose. 
-// 2. Select the control you want to add a world control to
-// 3. Run the script
+// 2. Select the control you want to add a world control to. Usually something like Rosie:FKTail01_M_CTRL
+// 3. Run the script with the following command: mighty_tail_world_switch()
+// 4. To delete the system, delete the following items :
+//           mighty_tail_world_switch_locator_A and mighty_tail_world_switch_locator_B  
 ////////////////////////////////
 
 CHANGELOG:
@@ -32,29 +34,43 @@ global proc mighty_tail_world_switch() {
 // Make a variable from the selection 
 string $mighty_World_switch_selection[] = `ls -sl`;
 print ("Object selected is : " + $mighty_World_switch_selection[0]);
-$test = referenceQuery -namespace $mighty_World_switch_selection[0];
 
+// Get character's Namespace
+string $charName[];
+$numTokens = `tokenize $mighty_World_switch_selection[0] ":" $charName`;
 
 // Creation locator A
 spaceLocator -name mighty_tail_world_switch_locator_A ;
 
 // Snap locator to the first tail FK chain through a constraint then delete the constraint and duplicate Loc A to Loc B
-parentConstraint -name CONST_TEMP_mighty_tail_world_switch  $mighty_World_switch_selection[0] mighty_tail_world_switch_locator_A ;
+parentConstraint -name CONST_TEMP_mighty_tail_world_switch $mighty_World_switch_selection[0] mighty_tail_world_switch_locator_A ;
 delete CONST_TEMP_mighty_tail_world_switch;
+
 // Creation of locator B and pointConstraint to A
 duplicate -name mighty_tail_world_switch_locator_B mighty_tail_world_switch_locator_A;
-setAttr "mighty_tail_world_switch_locator_B.scaleX" 20 ;
-setAttr "mighty_tail_world_switch_locator_B.scaleY" 20 ;
-setAttr "mighty_tail_world_switch_locator_B.scaleZ" 20 ;
-pointConstraint -name CONSTpoint_mighty_tail_world_switch_B -weight 1 mighty_tail_world_switch_locator_A mighty_tail_world_switch_locator_B;
+pointConstraint -name mighty_TWS_ConstPoint_to_Loc_A mighty_tail_world_switch_locator_A mighty_tail_world_switch_locator_B;
+
+// Create our new FK World control
+circle -n mighty_TWS_FK_CTRL -c 0 0 0 -nr 0 0 1 -sw 360 -r 8 -d 8 -ut 0 -tol 0.01 -s 8 -ch 0;
+setAttr "mighty_TWS_FK_CTRL.overrideEnabled" 1;
+setAttr "mighty_TWS_FK_CTRL.overrideColor" 4;
+setAttr "mighty_TWS_FK_CTRL.rotateOrder" 2;
+
+// Align to loc_B
+pointConstraint -name mighty_TWS_Const_TEMP mighty_tail_world_switch_locator_B mighty_TWS_FK_CTRL ;
+delete mighty_TWS_Const_TEMP;
+parent mighty_TWS_FK_CTRL mighty_tail_world_switch_locator_B ;
+makeIdentity -apply true -t 1 -r 1 -s 1 -n 0 -pn 1;
 
 // creation of the constraint from Locator A to FKRoot or hips
-parentConstraint -mo -weight 1 -name CONST_mighty_tail_world_switch_A Rosie:FKRoot_M_CTRL mighty_tail_world_switch_locator_A ;
+parentConstraint -mo -weight 1 -name mighty_TWS_Const_to_Root ($charName[0] + ":FKRoot_M_CTRL") mighty_tail_world_switch_locator_A ;
 
-// creation of the constraint from FKTail top control to Locator B
-parentConstraint -weight 1 -name CONST_mighty_tail_world_switch_to_B mighty_tail_world_switch_locator_B $mighty_World_switch_selection[0] ;
+// creation of the constraint from FKTail top control to mighty_TWS_FK_CTRL
+parentConstraint -weight 1 -name mighty_TWS_Const_to_TWS_FK_CTRL mighty_TWS_FK_CTRL $mighty_World_switch_selection[0] ;
 
+// Done
+print "/////// Mighty Tail World switch control created ///////// "
 
+}
 
-
-
+mighty_tail_world_switch();
