@@ -17,12 +17,10 @@ def mighty_GPU_generator():
 
 mighty_GPU_generator()
 
-
-asset_full_name = referenceQuery ( namespace = true `ls -sl`
-
-asset_full_name =  cmds.ls( sl =True )
-print asset_full_name
-fileName = asset_full_name.split(':')[0]
+// working get namespace function
+asset_full_name =  cmds.ls( sl =True)
+name = str(asset_full_name[0])
+print (name.split(':'))[0]
  
  
  
