@@ -4,39 +4,55 @@ from maya.mel import eval
 
 def mighty_GPU_generator(): 
     ## Setting up the variables
-##    dir_path = ?
-    current_file_name = cmds.file(sceneName=True, query=True, shortName=1 )
-    minTime = cmds.playbackOptions( q = 1, minTime = 1 )
-    maxTime = cmds.playbackOptions( q = 1, maxTime = 1 ) 
-    mighty_GPU_generator_selection = cmds.ls( sl =True )
-    print ("Object selected is : " +  mighty_GPU_generator_selection[0])
-    GPUcacheName = current_file_name + mighty_GPU_generator_selection[0]
-    cmds.gpuCache ( Rosie:Geometries, startTime = minTime, endTime = maxTime, optimize = 1, optimizationThreshold = 40000, writeMaterials = 1, dataFormat = ogawa, directory = "/alembic", fileName = 'GPUcacheName', directory=‘dir_path’)
-##    cmds.gpuCache ( Rosie:Geometries, startTime = minTime, endTime = maxTime, optimize = 1, optimizationThreshold 40000, writeMaterials, dataFormat ogawa, directory = "/alembic", fileName = 'GPUcacheName', directory=‘dir_path’)
+    ##    dir_path = ?
+## Definition of the variables
+#### Get the namespace
+selection_buffer = cmds.ls( sl =True )
+mighty_GPU_generator_selection = str(selection_buffer[0])
+nameSpaceString =(mighty_GPU_generator_selection.split(':'))[0]
+print ("Object selected is : " +  nameSpaceString)
 
+#### Get the filename as prefix
+current_file_name = cmds.file(sceneName=True, query=True, shortName=1 )
+mighty_GPU_cache_prefix = (current_file_name.split('_animation_'))[0] 
+print mighty_GPU_cache_prefix
+  
+#### Get the timeline range
+minTime = cmds.playbackOptions( q = 1, minTime = 1 )
+maxTime = cmds.playbackOptions( q = 1, maxTime = 1 ) 
+
+GPUcacheName = ( mighty_GPU_cache_prefix + "_cache_" + nameSpaceString)
+
+## test gpuCache command line
+cmds.gpuCache ( nameSpaceString + ":Geometries", startTime = minTime, endTime = maxTime, optimize = 1, optimizationThreshold = 40000, directory = "", fileName = GPUcacheName )
+cachePath = ( "C:/Users/artiste/Documents/maya/projects/default/cache/alembic/" + GPUcacheName + ".abc" )
+
+# ==============
+# - Load Cache -
+# ==============
+
+# Create Cache Node
+##cacheNode = cmds.createNode('gpuCache',name=cacheName+'Cache')
+cacheNode = cmds.createNode('gpuCache',name='Cache')
+cacheParent = cmds.listRelatives(cacheNode,p=True,pa=True)
+cacheParent = cmds.rename(cacheParent,cacheName)
+
+# Set Cache Path
+cmds.setAttr(cacheNode+'.cacheFileName',cachePath,type='string')
+
+# ==============
+# - End Load Cache -
+# ==============
+
+
+cmds.file ( cachePath )
+
+## working example cmds.file ( 'N:/02_SAISON_2/03_FABRICATION/ASSETS/Character/' + charName + '/rigging/pub/BDG__Character__' + charName + '__rigging.ma', reference = True, type = "mayaAscii", namespace = charName  )
+
+cmds.file ( unloadReference = nameSpaceString + "RN" )
 
 mighty_GPU_generator()
 
-// working get namespace function
-asset_full_name =  cmds.ls( sl =True)
-name = str(asset_full_name[0])
-print (name.split(':'))[0]
- 
- 
- 
-#### Mel below  
 
 
 
-
-current_file_name = cmds.file(sceneName=True, query=True, shortName=1 )
-minTime = cmds.playbackOptions( q = 1, minTime = 1 )
-maxTime = cmds.playbackOptions( q = 1, maxTime = 1 ) 
-mighty_GPU_generator_selection = cmds.ls( sl =True )
-GPUcacheName = current_file_name + mighty_GPU_generator_selection[0]
-stringGPU = ('gpuCache -startTime ' + str(minTime) + ' -endTime ' + str(maxTime) + ' -optimize -optimizationThreshold 40000 -writeMaterials -dataFormat ogawa -directory "/alembic" -fileName "' + GPUcacheName + '.abc" Rosie:Geometries;')
-print stringGPU
-mel.eval(stringGPU)
-
-cmds.file ( import = 'C:/Users/artiste/Documents/maya/projects/default/cache/alembic/BDG_205_22_Rosie.abc' )
-cmds.file ( unloadReference = 'RosieRN' )
