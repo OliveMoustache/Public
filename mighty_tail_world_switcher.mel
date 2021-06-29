@@ -6,32 +6,36 @@
 
 // This script is to create a world control for the tail on the fly
 
+/////////// How to install  //////////////////////
+// Place the script in your scripts folder
+// Do a rehash or restart Maya for Maya to load the script
+
 /////////// How to use  //////////////////////
+//
 // 1. Ideally you want to orient the main and placement controls to the world before starting the script
 //        just so the new control is align to the world in default pose. 
 // 2. Select the control you want to add a world control to. Usually something like Rosie:FKTail01_M_CTRL
-// 3. Run the script with the following command: mighty_tail_world_switch()
+// 3. Run the script with the following command: mighty_tail_world_switch() 
+//            You could also use a hotkey
 // 4. To delete the system, delete the following items :
 //           mighty_tail_world_switch_locator_A and mighty_tail_world_switch_locator_B  
+//
 ////////////////////////////////
 
-// Possible improvements :
-// add the namespace to the locator and constraints names.
 ////////
 
 CHANGELOG:
 2021 06 27    v1.0 
 2021 06 28
+2021 06 29    v2.0 added the namespace to the locator and constraints names.
 
-////////////// How to use /////////////////////////
-Place the script in your scripts folder
-Do a rehash or restart Maya for Maya to load the script
-Select the object you want to switch to from local to world
-Trigger the script from the shelf or command line with:
-    mighty_tail_world_switch()
-You could also use it as a Hotkey
-////////////////////////////////////////////////////
 */
+
+/// FAQ
+/// If you get an error message saying "// Error: line 54: No object matches name: "
+///         This is because you didn't select the tail FK control
+////////////////////////////////
+
 
 global proc mighty_tail_world_switch() {    
 
