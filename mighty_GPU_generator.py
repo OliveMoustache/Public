@@ -43,17 +43,24 @@
 import maya.cmds as cmds
 
 def mighty_GPU_generator(): 
-    ## Definition of the variables
-    #### Get the namespace
+## Definition of the variables
+#### Get the namespace
     selection_buffer = cmds.ls( sl =True )
     mighty_GPU_generator_selection = str(selection_buffer[0])
     nameSpaceString =(mighty_GPU_generator_selection.split(':'))[0]
-    print ("Object selected is : " +  nameSpaceString)
+    cacheName = (nameSpaceString + "_GPU_cache")
+
+cacheName = "Rosie_GPU_cache"
+if cmds.objExists ( cacheName ) :
+    cmds.delete ( cacheName )
+    print cacheName + " deleted"
     
+    
+            
     #### Get the filename as prefix
     current_file_name = cmds.file(sceneName=True, query=True, shortName=1 )
     mighty_GPU_cache_prefix = (current_file_name.split('_animation_'))[0] 
-    print mighty_GPU_cache_prefix
+
       
     #### Get the timeline range
     minTime = cmds.playbackOptions( q = 1, minTime = 1 )
@@ -64,17 +71,18 @@ def mighty_GPU_generator():
     
     ## GPU cache processing
     cmds.gpuCache ( nameSpaceString + ":Geometries", startTime = minTime, endTime = maxTime, optimize = 1, optimizationThreshold = 40000, directory = "", fileName = GPUcacheFileName )
-    
-    ## path for work ### cachePath = ( "C:/Users/artiste/Documents/maya/projects/default/cache/alembic/" + GPUcacheName + ".abc" )
-    ## path for home
-    cachePath = ( "Z:/3d/Maui Rig/Maya/cache/alembic/" + GPUcacheFileName + ".abc" )
-    
+   
     # ==============
     # - Load Cache -
     # ==============
+    ## path for work 
+    cachePath = ( "C:/Users/artiste/Documents/maya/projects/default/cache/alembic/" + GPUcacheFileName + ".abc" )
+    ## path for home
+    ## cachePath = ( "Z:/3d/Maui Rig/Maya/cache/alembic/" + GPUcacheFileName + ".abc" )
+
     # Create Cache Node
-    cacheName = (nameSpaceString + "_GPU_cache")
-    cacheNode = cmds.createNode('gpuCache',name='Cache')
+    cacheNodeName = (nameSpaceString + "_GPU_cacheShape")
+    cacheNode = cmds.createNode('gpuCache',name = cacheNodeName )    
     cacheParent = cmds.listRelatives(cacheNode,p=True,pa=True)
     cacheParent = cmds.rename(cacheParent, cacheName )
     # Load the GPU datas into the cacheNode
@@ -82,10 +90,9 @@ def mighty_GPU_generator():
     # ==============
     # - End Load Cache -
     # ==============
-    
     ## Unload the referenced rig
-    cmds.file ( unloadReference = nameSpaceString + "RN" )
+    refString = "CHAR_" + nameSpaceString + "1RN"
+    cmds.file ( unloadReference = "CHAR_" + nameSpaceString + "_1RN" )
     print "//////// Rig unloaded and GPU loaded /////////"
 
 
-mighty_GPU_generator()
