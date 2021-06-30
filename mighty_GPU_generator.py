@@ -50,10 +50,9 @@ def mighty_GPU_generator():
     nameSpaceString =(mighty_GPU_generator_selection.split(':'))[0]
     cacheName = (nameSpaceString + "_GPU_cache")
 
-cacheName = "Rosie_GPU_cache"
-if cmds.objExists ( cacheName ) :
-    cmds.delete ( cacheName )
-    print cacheName + " deleted"
+    if cmds.objExists ( cacheName ) :
+        cmds.delete ( cacheName )
+        print cacheName + " deleted"
     
     
             
