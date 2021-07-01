@@ -16,7 +16,8 @@
 ##     1. Select any control from the rig you want to GPU cache just so you can speed up the scene and focus 
 ##         on other characters
 ##     2. Run the script with the following command: 
-##            mighty_GPU_generator() 
+##			import mighty_GPU_generator
+##			mighty_GPU_generator.mighty_GPU_generator()
 ##        You could also use a hotkey
 ##     3. When done, reload the reference from the reference editor.
 ##
@@ -93,5 +94,3 @@ def mighty_GPU_generator():
     refString = "CHAR_" + nameSpaceString + "1RN"
     cmds.file ( unloadReference = "CHAR_" + nameSpaceString + "_1RN" )
     print "//////// Rig unloaded and GPU loaded /////////"
-
-
