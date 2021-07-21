@@ -5,7 +5,7 @@
 
 // v1.0 2021 07 20
 // Function:
-// - When hitting the DG2Parallel_Simple button, the script toggles the evaluation from DG to parallel
+// - When hitting the DG2Parallel_Simple button, the script toggles the evaluation from DG to parallel, and vice versa.
 // - For better understanding of the mode used, the evaluation state appears on the Head Up Display (HUD) in the viewport.
 
 // Usage suggestion:
