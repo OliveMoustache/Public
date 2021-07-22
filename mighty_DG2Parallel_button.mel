@@ -23,14 +23,13 @@ global proc mighty_DG2Parallel_button()
 SetEvaluationManagerHUDVisibility(1);
 
 string $evaluationState = `evaluationManager -q -e`;
-print $evaluationState;
 
 if ( $evaluationState == 0 )
     { evaluationManager -mode parallel; 
     print "======= Switched to parallel ========";   
 } else { 
     evaluationManager -mode "off"; 
-    print "Switched to DG";
+    print "****** Switched to DG ******";
         }
 }
 
