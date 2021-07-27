@@ -16,8 +16,8 @@
 ##     1. Select any control from the rig you want to GPU cache just so you can speed up the scene and focus 
 ##         on other characters
 ##     2. Run the script with the following command: 
-##			import mighty_GPU_generator
-##			mighty_GPU_generator.mighty_GPU_generator()
+##            import mighty_GPU_generator
+##            mighty_GPU_generator.mighty_GPU_generator()
 ##        You could also use a hotkey
 ##     3. When done, reload the reference from the reference editor.
 ##
@@ -26,6 +26,7 @@
 ## ////////////////////////////////
 
 ## CHANGELOG:
+## 2021 07 27    v1.1     File path changed to reflect new Windows sessions.
 ## 2021 06 29    v1.0 
 ##
 
@@ -42,6 +43,7 @@
 
 
 import maya.cmds as cmds
+import os
 
 def mighty_GPU_generator(): 
 ## Definition of the variables
@@ -68,18 +70,20 @@ def mighty_GPU_generator():
     
     ## Generate GPU cache file name with Prefix
     GPUcacheFileName = ( mighty_GPU_cache_prefix + "_" + nameSpaceString + "_GPUcache")
-    
+    print "######## GPU Cache will be named " + GPUcacheFileName + " ########"
+        
     ## GPU cache processing
     cmds.gpuCache ( nameSpaceString + ":Geometries", startTime = minTime, endTime = maxTime, optimize = 1, optimizationThreshold = 40000, directory = "", fileName = GPUcacheFileName )
-   
+    print "######## GPU Cache processed ########"
+    
     # ==============
     # - Load Cache -
     # ==============
-    ## path for work 
-    cachePath = ( "C:/Users/artiste/Documents/maya/projects/default/cache/alembic/" + GPUcacheFileName + ".abc" )
-    ## path for home
-    ## cachePath = ( "Z:/3d/Maui Rig/Maya/cache/alembic/" + GPUcacheFileName + ".abc" )
-
+    ## cachePath concatenation
+    homedir = os.environ['HOME']
+    cachePath = ( homedir + "/maya/projects/default/cache/alembic/" + GPUcacheFileName + ".abc" )
+    print "######## GPU Cache generated as " + cachePath + " ########"
+    
     # Create Cache Node
     cacheNodeName = (nameSpaceString + "_GPU_cacheShape")
     cacheNode = cmds.createNode('gpuCache',name = cacheNodeName )    
@@ -93,4 +97,5 @@ def mighty_GPU_generator():
     ## Unload the referenced rig
     refString = "CHAR_" + nameSpaceString + "1RN"
     cmds.file ( unloadReference = "CHAR_" + nameSpaceString + "_1RN" )
-    print "//////// Rig unloaded and GPU loaded /////////"
+    print "######## Rig unloaded and GPU loaded ########"
+  
