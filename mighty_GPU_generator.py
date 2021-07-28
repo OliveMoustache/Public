@@ -1,5 +1,5 @@
 ##
-##  Mighty GPU generator v1.0
+##  Mighty GPU generator v1.1
 ##  2021 06 29
 ##  mighty_GPU_generator.py
 ##  by Olivier Ladeuix
