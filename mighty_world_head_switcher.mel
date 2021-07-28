@@ -1,12 +1,11 @@
 /*
-//  Mighty World switcher
-//  mighty_World_switcher.mel
-// by Olivier Ladeuix
+//  Mighty world head switcher
+//  mighty_world_head_switcher.mel
+//  by Olivier Ladeuix
 //
 
 // This script is to switch a control from local orient to world orient 
-// and mostly the Head through baking. 
-// This script was tested successfully on Rosie's head.
+// through baking. This script was tested successfully on Rosie's head.
 
 /////////// Requirements //////////////////////
 // 1. You need to have the full frame range visible
@@ -16,14 +15,16 @@
 CHANGELOG:
 2021 06 22    v1.0 
 2021 06 23    v1.1    Now a procedure rather than a simple script 
-2021 07 27    v1.2    Modified the code to place on the shelf
+2021 07 28    v1.2    Changed the name of the script from mighty_World_switcher to mighty_world_head_switcher
 
 ////////////// How to use /////////////////////////
 Place the script in your scripts folder
 Do a rehash or restart Maya for Maya to load the script
 Select the object you want to switch to from local to world
 Trigger the script from the shelf or command line with:
-    source "mighty_World_switcher"; mighty_World_switcher();
+
+    source "mighty_world_head_switcher"; mighty_world_head_switcher();
+
 You could also use it as a Hotkey
 ////////////////////////////////////////////////////
     
@@ -33,12 +34,12 @@ You could also use it as a Hotkey
 
 
 
-global proc mighty_World_switcher() {    
+global proc mighty_world_head_switcher() {    
 
 
 // Make a variable from the selection 
-string $mighty_World_switch_selection[] = `ls -sl`;
-print ("Object selected is : " + $mighty_World_switch_selection[0]);
+string $mighty_world_head_switch_selection[] = `ls -sl`;
+print ("Object selected is : " + $mighty_world_head_switch_selection[0]);
 
 // Get the frame range and go to the start of the range
 float $minTime = `playbackOptions -q -minTime`;
@@ -50,14 +51,14 @@ currentTime $minTime ;
 // referenceQuery -namespace `ls -sl`;
 
 // Creation of the locator
-spaceLocator -name mighty_World_switch_TEMP_locator ;
+spaceLocator -name mighty_world_head_switch_TEMP_locator ;
 
-setAttr "mighty_World_switch_TEMP_locator.scaleX" 20 ;
-setAttr "mighty_World_switch_TEMP_locator.scaleY" 20 ;
-setAttr "mighty_World_switch_TEMP_locator.scaleZ" 20 ;
+setAttr "mighty_world_head_switch_TEMP_locator.scaleX" 20 ;
+setAttr "mighty_world_head_switch_TEMP_locator.scaleY" 20 ;
+setAttr "mighty_world_head_switch_TEMP_locator.scaleZ" 20 ;
 
 // Constraint the locator to the object selection for locator baking
-parentConstraint -name mighty_constraint_TEMP_parentConstraint $mighty_World_switch_selection[0] mighty_World_switch_TEMP_locator  ;
+parentConstraint -name mighty_constraint_TEMP_parentConstraint $mighty_world_head_switch_selection[0] mighty_world_head_switch_TEMP_locator  ;
 
 // Bake the locator and delete the constraint
 bakeResults -simulation true -t ($bakeRange) -sampleBy 1 -oversamplingRate 1 -disableImplicitControl 
@@ -69,13 +70,13 @@ print "\n////////// Locator baked to Driver //////////";
 delete mighty_constraint_TEMP_parentConstraint;
 
 // Constraint the object to the locator for object baking
-parentConstraint -name mighty_constraint_TEMP_parentConstraint_B mighty_World_switch_TEMP_locator  $mighty_World_switch_selection[0];
-select $mighty_World_switch_selection[0];
+parentConstraint -name mighty_constraint_TEMP_parentConstraint_B mighty_world_head_switch_TEMP_locator  $mighty_world_head_switch_selection[0];
+select $mighty_world_head_switch_selection[0];
 
 // Switch the global attribute to Global (World orient)
-cutKey -t ":" -f ":" -at "Global" $mighty_World_switch_selection[0];
-setAttr ($mighty_World_switch_selection[0] + ".Global") 10 ;
-setKeyframe ($mighty_World_switch_selection[0] + ".Global");
+cutKey -t ":" -f ":" -at "Global" $mighty_world_head_switch_selection[0];
+setAttr ($mighty_world_head_switch_selection[0] + ".Global") 10 ;
+setKeyframe ($mighty_world_head_switch_selection[0] + ".Global");
 // setKeyframe -breakdown 0 -preserveCurveShape 0 -hierarchy none  -at "blendParent1" Rosie:FKHead_M_CTRL;
 bakeResults -simulation true -t ($bakeRange) -sampleBy 1 -oversamplingRate 1 -disableImplicitControl true -preserveOutsideKeys
  true -sparseAnimCurveBake false -removeBakedAttributeFromLayer false -removeBakedAnimFromLayer false -bakeOnOverrideLayer false
@@ -84,7 +85,7 @@ bakeResults -simulation true -t ($bakeRange) -sampleBy 1 -oversamplingRate 1 -di
 print "\n////////// Driver baked to locator //////////";
 
 delete mighty_constraint_TEMP_parentConstraint_B;
-delete mighty_World_switch_TEMP_locator ;
+delete mighty_world_head_switch_TEMP_locator ;
 
 print "\n////////// Mighty World switch completed //////////";
 
