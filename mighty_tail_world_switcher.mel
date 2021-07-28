@@ -1,10 +1,12 @@
 /*
-//  Mighty Tail world switcher v1.2
+//  Mighty Tail world switcher v2.3
 //  mighty_tail_world_switcher.mel
 // by Olivier Ladeuix
 //
 
 // This script is to create a world control for the tail on the fly
+// The name will reflect the character's name ie. mighty_TWS_Loudo_FK_CTRL 
+// which will be located under __TRASH__> mighty_TWS_Loudo_locator_B
 
 /////////// How to install  //////////////////////
 // Place the script in your scripts folder
@@ -19,8 +21,8 @@
 // You can launch the script through a button on the shelf using the following code :
 // source "mighty_tail_world_switcher"; mighty_tail_world_switch();
 //            You could also use a hotkey
-// 4. To delete the system, delete the following items :
-//           mighty_tail_world_switch_locator_A and mighty_tail_world_switch_locator_B  
+// 4. To delete the system, delete the following items from the __TRASH__ folder, ie for Loudo :
+//           mighty_TWS_Loudo_locator_A and mighty_TWS_Loudo_locator_B  
 //
 ////////////////////////////////
 
@@ -28,12 +30,13 @@
 
 CHANGELOG:
 2021 06 27    v1.0 
-2021 06 28
 2021 06 29    v2.0 added the namespace to the locator and constraints names.
 2021 06 29    v2.1 renamed the locator to include the character's name
-2021 07 27    v2.2 Modified the How to use section and now parenting the locator under the __TRASH__ folder
+2021 07 27    v2.2 Modified the "How to use" section and now parenting the locator under the __TRASH__ folder
+2021 07 28    v2.3 Modified the "How to use" section
 
-Room for improvement. Put the locator into the Trash/Temp folder
+
+
 */
 
 /// FAQ
