@@ -32,7 +32,7 @@ You could also use it as a Hotkey
 */
 
 
-
+rehash;
 
 global proc mighty_world_head_switcher() {    
 
@@ -61,6 +61,7 @@ setAttr "mighty_world_head_switch_TEMP_locator.scaleZ" 20 ;
 parentConstraint -name mighty_constraint_TEMP_parentConstraint $mighty_world_head_switch_selection[0] mighty_world_head_switch_TEMP_locator  ;
 
 // Bake the locator and delete the constraint
+print "\n////////// Baking Locator to Driver //////////";
 bakeResults -simulation true -t ($bakeRange) -sampleBy 1 -oversamplingRate 1 -disableImplicitControl 
 true -preserveOutsideKeys true -sparseAnimCurveBake false -removeBakedAttributeFromLayer false -removeBakedAnimFromLayer 
 false -bakeOnOverrideLayer false -minimizeRotation true -controlPoints false -shape true;
@@ -77,17 +78,18 @@ select $mighty_world_head_switch_selection[0];
 cutKey -t ":" -f ":" -at "Global" $mighty_world_head_switch_selection[0];
 setAttr ($mighty_world_head_switch_selection[0] + ".Global") 10 ;
 setKeyframe ($mighty_world_head_switch_selection[0] + ".Global");
+
 // setKeyframe -breakdown 0 -preserveCurveShape 0 -hierarchy none  -at "blendParent1" Rosie:FKHead_M_CTRL;
+print "\n////////// Baking driver to locator //////////";
 bakeResults -simulation true -t ($bakeRange) -sampleBy 1 -oversamplingRate 1 -disableImplicitControl true -preserveOutsideKeys
  true -sparseAnimCurveBake false -removeBakedAttributeFromLayer false -removeBakedAnimFromLayer false -bakeOnOverrideLayer false
   -minimizeRotation true -controlPoints false -shape true ;
-
 print "\n////////// Driver baked to locator //////////";
 
 delete mighty_constraint_TEMP_parentConstraint_B;
 delete mighty_world_head_switch_TEMP_locator ;
 
-print "\n////////// Mighty World switch completed //////////";
+print "\n////////// Mighty World switch completed //////////\n";
 
 
 };
