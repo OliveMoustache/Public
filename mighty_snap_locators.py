@@ -3,8 +3,12 @@
 
 ## make a list from the selection
 guidesList = cmds.ls(selection=True)
-## create the Guides Locators group to export
-cmds.group( em=True, name='Guides_Loc_export')
+## create the Guides Locators group to export if it doesn't already exists
+if cmds.objExists('Guides_Loc_export'):
+    print 'Guides loc group exists'
+else:
+    cmds.group( em=True, name='Guides_Loc_export')
+
 listSize = len(guidesList)
 increment = 0
 for i in guidesList:
