@@ -1,5 +1,9 @@
 ## Locator match position
 ## Create a locator with a name based on the object and snap it to the position of that object
+
+# Simple script to create and snap a locator to a single object using the Xform and Parent techniques.
+# Use mighty_snap_locator.py if you want to snap a list of objects instead.
+
 import maya.cmds as cmds
 posGrab = cmds.ls(selection=True)
 locName =  posGrab[0] + '_Loc' 
