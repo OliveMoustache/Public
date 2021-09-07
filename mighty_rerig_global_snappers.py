@@ -2,6 +2,10 @@
 ## The guides in a new scene can then be snapped to those locators
 ## using either the Xform or constraint method. (I need to evaluate if both work)
 
+## When Importing the Guides_Loc_export group into the new scenes, make sure the namespace is off
+## amd Clashing nodes set to resolve with an empty string
+
+
 
 import maya.cmds as cmds
 import maya.mel as mel
@@ -29,43 +33,44 @@ reRig_guides_list = [
 'gdeHand02Lf',
 
 'gdeFingerAMasterLf',
-'gdeFingerAUpLf',
 'gdeFingerA00Lf',
 'gdeFingerA01Lf',
 'gdeFingerA02Lf',
 'gdeFingerA03Lf',
 'gdeFingerA04Lf',
+'gdeFingerAUpLf',
 
 'gdeFingerBMasterLf',
-'gdeFingerBUpLf',
 'gdeFingerB00Lf',
 'gdeFingerB01Lf',
 'gdeFingerB02Lf',
 'gdeFingerB03Lf',
 'gdeFingerB04Lf',
+'gdeFingerBUpLf',
 
 'gdeFingerCMasterLf',
-'gdeFingerCUpLf',
 'gdeFingerC00Lf',
 'gdeFingerC01Lf',
 'gdeFingerC02Lf',
 'gdeFingerC03Lf',
 'gdeFingerC04Lf',
+'gdeFingerCUpLf',
 
 'gdeFingerDMasterLf',
-'gdeFingerDUpLf',
 'gdeFingerD00Lf',
 'gdeFingerD01Lf',
 'gdeFingerD02Lf',
 'gdeFingerD03Lf',
 'gdeFingerD04Lf',
+'gdeFingerDUpLf',
 
 'gdeFingerEMasterLf',
-'gdeFingerEUpLf',
 'gdeFingerE00Lf',
 'gdeFingerE01Lf',
 'gdeFingerE02Lf',
 'gdeFingerE03Lf',
+'gdeFingerEUpLf',
+
 
 'gdeArmClavicleLf',
 'gdeClavicleRotMasterLf',
@@ -108,10 +113,10 @@ reRig_guides_list = [
 'gdeNoseNostrilLf',
 
 'gdeEarMasterLf',
-'gdeEarUpLf',
 'gdeEar00Lf',
 'gdeEar01Lf',
 'gdeEar02Lf',
+'gdeEarUpLf',
 
 'gdeUpperCheekMasterLf',
 'gdeUpperCheekUpLf',
@@ -183,7 +188,52 @@ reRig_guides_list = [
 'gdeTongue05Ct',
 'gdeTongue05Lf',
 
-## beware the following only have translation locked
+'gdeLegMasterLf',
+'gdeLeg00Lf',
+'gdeLeg01Lf',
+'gdeLeg02Lf',
+'gdeLeg04Lf',
+'gdeLeg05Lf',
+'gdeLeg06Lf',
+'gdeLegBankinLf',
+'gdeLegBankoutLf',
+'gdeLegBackLf',
+'gdeLegBallLf',
+'gdeLegTipLf',
+'gdeLegHeelLf',
+'gdeLegUpLf',
+
+'gdeToeAMasterLf',
+'gdeToeA00Lf',
+'gdeToeA01Lf',
+'gdeToeA02Lf',
+'gdeToeAUpLf',
+
+'gdeToeBMasterLf',
+'gdeToeB00Lf',
+'gdeToeB01Lf',
+'gdeToeB02Lf',
+'gdeToeBUpLf',
+
+'gdeToeCMasterLf',
+'gdeToeC00Lf',
+'gdeToeC01Lf',
+'gdeToeC02Lf',
+'gdeToeCUpLf',
+
+'gdeToeDMasterLf',
+'gdeToeD00Lf',
+'gdeToeD01Lf',
+'gdeToeD02Lf',
+'gdeToeDUpLf',
+
+'gdeToeEMasterLf',
+'gdeToeE00Lf',
+'gdeToeE01Lf',
+'gdeToeE02Lf',
+'gdeToeEUpLf',
+
+## beware the following have their translation locked
 'gdeLipsMaster',
 'gdeLipsUpperCt',
 'gdeLipsLowerCt',
@@ -191,7 +241,8 @@ reRig_guides_list = [
 'gdeLips01LowerLf',
 'gdeLips00UpperLf',
 'gdeLips00LowerLf',
-'gdeLipsCornerLf']
+'gdeLipsCornerLf'
+]
 
     
     
@@ -214,15 +265,17 @@ def snapLocators2Guides(object):
         clusterRot = cmds.xform( i, query=True, rotation=True, worldSpace=True )
         cmds.xform ( locName, t= clusterPos, worldSpace=True )
         cmds.xform ( locName, ro= clusterRot, worldSpace=True )
-        ## increment the list
+
+    locGrpLen = len( reRig_guides_list ) 
     
     cmds.select ( 'Guides_Loc_export' )
-    print '///////////// Guides_Loc_export group ready for export //////////////\n'
-    
+    print '///////////// Guides_Loc_export group ready for export //////////////'
+    print '///////////// ' + str( locGrpLen) + ' locators mapped ////////////// \n'
 
 
-    
-    
+
+
+
 def snapGuides2LocsXform(object): 
     ## Snap Guides ###########################
     ## This is the script to snap the Guides to the Locators
@@ -256,14 +309,19 @@ def snapGuides2LocsConst(object):
         constrName = 'mighty_const_' + i
         cmds.parentConstraint( locName, i, n = constrName  )
         cmds.delete ( constrName )
-    
     print '///////////// The guides have been snapped to the Locators (Constraint method) //////////////\n'
 
 
 
 
+
 snapLocators2Guides(object)
+
 snapGuides2LocsXform(object)
+
 snapGuides2LocsConst(object)    
-    
-    
+
+
+
+
+
