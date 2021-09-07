@@ -1,9 +1,19 @@
-## Those are 3 functions to backup reRig's guides as a group of locators
-## The guides in a new scene can then be snapped to those locators
-## using either the Xform or constraint method. (I need to evaluate if both work)
+## mighty_rerig_global_snappers.py
+## creator: Olivier Ladeuix
+## 2021 09 04
+## v1.1
+
+## Those are 3 functions to backup reRig's guides as a group of locators called "Guides_Loc_export"
+## This group can be exported as a Maya file for backup and reimported in a new setup file
+
+## You will then snap the guides from that news scene to those locators
+## using either the Xform or constraint method. (I need to evaluate what is best, so far the
+## xform method seems to be working perfectly
 
 ## When Importing the Guides_Loc_export group into the new scenes, make sure the namespace is off
-## amd Clashing nodes set to resolve with an empty string
+## amd Clashing nodes set to resolve with an empty string just so we don't have any namespace added by Maya
+
+
 
 
 
