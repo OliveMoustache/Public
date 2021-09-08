@@ -2,6 +2,8 @@
 ## creator: Olivier Ladeuix
 ## 2021 09 04
 ## v1.1
+## Olivier Ladeuix
+## http://www.olivier-ladeuix.com/blog/
 
 ## Those are 3 functions to backup reRig's guides as a group of locators called "Guides_Loc_export"
 ## This group can be exported as a Maya file for backup and reimported in a new setup file
@@ -21,6 +23,7 @@ import maya.cmds as cmds
 import maya.mel as mel
 
 ## List of Master, left and center guides that have translation and rotation values
+## The order is very important since the child guides get affected by the Master guides
 reRig_guides_list = [
 'gdeReedMaster',
 'gdeCogMaster',
@@ -288,13 +291,11 @@ def snapLocators2Guides(object):
 
 def snapGuides2LocsXform(object): 
     ## Snap Guides ###########################
-    ## This is the script to snap the Guides to the Locators
+    ## This is the script to snap the Guides to the Locators using the xform method
 
     ## We are looping the snapping of the guides to the locators
     for i in reRig_guides_list:
         locName =  i + '_Loc' 
-        print locName      
-        print i
         clusterPos = cmds.xform( locName, query=True, translation=True, worldSpace=True )
         clusterRot = cmds.xform( locName, query=True, rotation=True, worldSpace=True )
         cmds.xform ( i,  t= clusterPos, worldSpace=True  )
@@ -309,8 +310,7 @@ def snapGuides2LocsXform(object):
 
 def snapGuides2LocsConst(object): 
     ## Snap Guides ###########################
-    ## This is the script to snap the Guides to the Locators using Constraints !!!!
-    #### test with constraints instead
+    ## This is the script to snap the Guides to the Locators using Constraints, not sure if this is very smart
          
     for i in reRig_guides_list:
         locName =  i + '_Loc' 
@@ -324,11 +324,13 @@ def snapGuides2LocsConst(object):
 
 
 
-
+## Step 01. Start the function to snap a group of locators to your guides
 snapLocators2Guides(object)
 
+## Step 02.  Start the function to snap the new guides to the imported locators  (using the xform method)
 snapGuides2LocsXform(object)
 
+##  Step 02 alternate version. Start the function to snap the new guides to the imported locators  (using the constraint method.)
 snapGuides2LocsConst(object)    
 
 
