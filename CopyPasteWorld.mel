@@ -1,0 +1,18 @@
+//////// Copy world
+///// to apply to the master
+        float $posJu[] = `xform -q -ws -t`;  
+		float $rotJu[] = `xform -q -ws -ro`; 
+		  
+		 
+		 
+		 
+//////// Paste world
+///// to apply to the slave		 
+		string $sel[] = `ls -sl`;   
+		string $obj;   
+		for ($obj in $sel)  
+// You can comment out with // if you don't want to paste the rotation or translation 
+		{   
+		move -ws $posJu[0] $posJu[1] $posJu[2] $obj;   
+		rotate -ws $rotJu[0] $rotJu[1] $rotJu[2] $obj;   
+		}  
