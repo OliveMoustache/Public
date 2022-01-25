@@ -1,4 +1,4 @@
-//////// Copy world
+//////// world cooy
 ///// to apply to the master
         float $posJu[] = `xform -q -ws -t`;  
 		float $rotJu[] = `xform -q -ws -ro`; 
@@ -6,7 +6,7 @@
 		 
 		 
 		 
-//////// Paste world
+//////// world paste
 ///// to apply to the slave		 
 		string $sel[] = `ls -sl`;   
 		string $obj;   
