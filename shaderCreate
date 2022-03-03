@@ -1,0 +1,9 @@
+                    // in situation the shader doesn't yet exists,
+                    // create shader gizmo shader
+                    shadingNode -n "Squetch_gizmo_shader" -asShader lambert;
+                    setAttr "Squetch_gizmo_shader.color" -type double3 0.093726 0.093726 0.246 ;
+                    setAttr "Squetch_gizmo_shader.transparency" -type double3 0.751381 0.751381 0.751381 ;    
+                    
+                    // apply gizmo shader to the gizmo
+                    select -r Squetch_gizmo ;
+                    hyperShade -assign Squetch_gizmo_shader;
