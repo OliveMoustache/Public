@@ -1,0 +1,8 @@
+To Evaluate a command
+Just use the ``
+
+example
+$char = `ls -sl`;
+string $buffer[];
+$numTokens = `tokenize $char[0] ":" $buffer`;
+print $buffer[1]
