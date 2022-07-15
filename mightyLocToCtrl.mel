@@ -1,0 +1,21 @@
+
+// mightyLocToCTRL is a procedure to constraint and rename a locator to a control (or other object)
+// The newly created locator will have mighty_Loc_bake_ as a prefix and the name following the 
+// namespace as suffix
+
+//TODO make a loop when selecting several controls and make a procedure out of it
+
+proc mightyLocToCTRLCreate() {
+$charCTRL = `ls -sl`;
+string $tempLocatorName; 
+// string $bufferCTRLname[];
+tokenize $char[0] ":" $bufferCTRLname;
+$tempLocatorName = "mighty_Loc_bake_" + $bufferCTRLname[1];
+print $tempLocatorName;
+
+spaceLocator -name $tempLocatorName;
+parentConstraint -name mighty_constraint_temp_parentConstraint $charCTRL $tempLocatorName ;
+setKeyframe -breakdown 0 -preserveCurveShape 0 -hierarchy none -controlPoints 0 -shape 1 {$tempLocatorName};
+setAttr ($tempLocatorName + ".blendMightyConstraintTempParent") 1;
+select-add $charCTRL;
+}
