@@ -1,0 +1,78 @@
+//     TODO 
+//     rename the dynamic curve created and hair system
+//     Have the hair system snap to the appendage position ?
+
+//// Declaration of the procedures /////////////
+proc mightyAppendageDynamicCreate() {
+
+    // Variables declaration
+    float $transA[];
+    float $transB[];
+    // User should first select the control we want to orient constraint to the simulation
+    $simCTRL = `ls -sl`;
+    
+    
+    // Creation of the locator_A at the root of the simulation
+    // Get position of the appendage root controler the user selected
+    float $transSimCTRL[] = `xform -worldSpace -q -translation $simCTRL`;
+    
+    // Create the locator at the position of the appendage's root controler
+    spaceLocator -p $transA[0] $transA[1] $transA[2] -name "mightyHairLocator_A";
+    // change its rotation order just so we can more easily control the orientation... 
+    // .. not sure this is required since we will bake
+    setAttr "mightyHairLocator_A.rotateOrder" 2;
+    
+    // Point constraint the locator A to the appendage's root controler
+    pointConstraint -mo -name mighty_PtConstraint_Loc_to_CTRL $simCTRL mightyHairLocator_A ;
+    
+    // Create our template curve from the root of the appendage to 4 units down
+    curve -name "mightyCurveOriginal" -d 1 -p $transA[0] $transA[1] $transA[2] -p $transA[0] -4 $transA[02] -k 0 -k 1 ;
+    
+    // Make curve dynamic 
+    // In the future, I need to control the naming of the output
+    select -r mightyCurveOriginal ;
+    makeCurvesDynamic 2 { "1", "0", "1", "1", "0"};
+    
+    // Make curve point lock set to Base instead of both
+    // the name will change in the next script upgrade
+    setAttr "follicleShape1.pointLock" 1;
+    
+    // parent the hair system to the Locator_A
+    parent hairSystem1Follicles mightyHairLocator_A ;
+    
+    setAttr "nucleus1.gravity" 1;
+    setAttr "hairSystemShape1.stretchResistance" 50;
+    setAttr "hairSystemShape1.compressionResistance" 50;
+    setAttr "hairSystemShape1.bendResistance" 0;
+    setAttr "hairSystemShape1.extraBendLinks" 7;
+    
+    setAttr "hairSystemShape1.drag" 0;
+    setAttr "hairSystemShape1.tangentialDrag" 0;
+    setAttr "hairSystemShape1.motionDrag" 0.01;
+    
+    // Get the world space position of the curve start and end vertices
+    float $transA[] = `xform -worldSpace -q -translation curve1.cv[0]`;
+    float $transB[] = `xform -worldSpace -q -translation curve1.cv[1]`;
+    
+    // And create two joints at both ends of the curve, they are independent for now 
+    joint -p $transA[0] $transA[1] $transA[2] -name mighty_jnt_A;
+    joint -p $transB[0] $transB[1] $transB[2] -name mighty_jnt_B;
+    
+    // Create the IK spline solver for the joints to follow the simulation
+    select -r mighty_jnt_A ;
+    select -add mighty_jnt_B ;
+    select -add curve1 ;
+    ikHandle -sol ikSplineSolver -ccv false -pcv false;
+       
+    // Create locator B oriented to joint B
+    spaceLocator -p $transA[0] $transA[1] $transA[2] -name "mightyHairLocator_B";
+    parent mightyHairLocator_B mightyHairLocator_A;
+    // Aim constraint Loc B to Joint B
+    aimConstraint -mo mighty_jnt_B mightyHairLocator_B;
+    // Orient constraint simControler to LocB
+    orientConstraint -mo mightyHairLocator_B $simCTRL;
+    }
+
+//// End of procedures declaration //////
+
+mightyAppendageDynamicCreate()
