@@ -1,0 +1,66 @@
+// mightyFBX_export.mel
+
+// v 1 This version.
+
+//// How to Use /////////////
+// copy the mightyFBX_export.mel file into your script folder 
+// rehash;
+// Call the script by the procedure name
+// mighty_FBX_exporter();
+
+// You will need to modify the path names in every line preceeded by the     // filepath comment
+
+
+// TODO
+// create publish folder on the fly
+// use relative path instead of hard path
+
+
+
+
+proc mighty_FBX_exporter()
+{
+    // save file
+    file -s;
+    
+    // save preClean file
+    $sceneName = `file -q -ns`;
+    print $sceneName;
+    file -rename ($sceneName + "_export_01_preClean.ma"); file -save -type "mayaAscii";
+    print "\n//////////////////// 1. scene renamed to *_export_01_preClean /////////////////\n";
+    
+    
+    // regroup and select the necessary nodes for the fbx export
+    select -r global_C0_0_jnt ;
+    select -add tamadodge_geo ;
+    group -n FBX_export;
+    select -hierarchy "FBX_export";
+    
+    // fbx export 
+    // filepath
+    file -force -options "v=0;" -typ "FBX export" -pr -es "Z:/3d/Rigs/Tamadodge/FBX/FBX_export_01_preClean.fbx";
+    print "//////////////////// 2. preClean exported /////////////////\n";
+    
+    
+    // Open new file and import the Preclean fbx
+    file -new -force;
+    file -import -type "FBX"  -ignoreVersion -mergeNamespacesOnClash true -rpr ":" -options "fbx"  -pr  -importFrameRate true  -importTimeRange "override" "Z:/3d/Rigs/Tamadodge/FBX/FBX_export_01_preClean.fbx";
+    print "//////////////////// 3. FBX reimported for final cleanup /////////////////\n";
+    
+    // Clean up and delete the not required nodes
+    delete "rig";
+    
+    /////// Final Post clean export ///////
+    // save postClean file
+    file -rename ($sceneName + "_export_02_postClean.ma"); file -save -type "mayaAscii";
+    print "\n//////////////////// 1. scene renamed to *_export_01_preClean /////////////////\n";
+    select -hierarchy "FBX_export";
+    // filepath
+    file -force -options "v=0;" -typ "FBX export" -pr -es "Z:/3d/Rigs/Tamadodge/FBX/FBX_export_02_postClean.fbx";
+    
+    print "//////////////////// Export file generated /////////////////\n";
+
+}
+
+
+mighty_FBX_exporter();
