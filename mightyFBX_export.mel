@@ -1,6 +1,7 @@
-// mightyFBX_export.mel
+// myghtyFBX_export.mel
 
 // v 1 This version.
+// v1.1 Changed export names just so we know which file we started from
 
 //// How to Use /////////////
 // copy the mightyFBX_export.mel file into your script folder 
@@ -14,6 +15,7 @@
 // TODO
 // create publish folder on the fly
 // use relative path instead of hard path
+// add bind pose fix  { dagPose -s -sl -bp; }
 
 
 
@@ -37,8 +39,9 @@ proc mighty_FBX_exporter()
     select -hierarchy "FBX_export";
     
     // fbx export 
+    $postName = ($sceneName + "_export_01_preClean.fbx");
     // filepath
-    file -force -options "v=0;" -typ "FBX export" -pr -es "Z:/3d/Rigs/Tamadodge/FBX/FBX_export_01_preClean.fbx";
+    file -force -options "v=0;" -typ "FBX export" -pr -es $postName ;
     print "//////////////////// 2. preClean exported /////////////////\n";
     
     
@@ -56,7 +59,8 @@ proc mighty_FBX_exporter()
     print "\n//////////////////// 1. scene renamed to *_export_01_preClean /////////////////\n";
     select -hierarchy "FBX_export";
     // filepath
-    file -force -options "v=0;" -typ "FBX export" -pr -es "Z:/3d/Rigs/Tamadodge/FBX/FBX_export_02_postClean.fbx";
+    $exportFBXName = ($sceneName + "_export_02_postClean.fbx");
+    file -force -options "v=0;" -typ "FBX export" -pr -es ("FBX/" + $exportFBXName );
     
     print "//////////////////// Export file generated /////////////////\n";
 
