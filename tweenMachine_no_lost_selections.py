@@ -1,3 +1,3 @@
 ctlSel = cmds.ls( selection=True )
-TweenMachineCommand()
+mel.eval('tweenMachine()')
 cmds.select ( ctlSel )
