@@ -1,3 +1,6 @@
+// simple script to create an arc tracker with all the frames visible
+// TODO currently, only the first motion trail called motionTrail1 can get all the frames visible
+
 snapshot  -motionTrail 1  -increment 1 -startTime `playbackOptions -query -min` -endTime `playbackOptions -query -max`;
 setAttr "motionTrail1HandleShape.showFrameMarkers" 1;
 setAttr "motionTrail1HandleShape.trailColor" -type double3 0.0182 0 0.4398 ;
