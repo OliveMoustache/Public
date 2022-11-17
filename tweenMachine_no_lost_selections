@@ -1,0 +1,3 @@
+ctlSel = cmds.ls( selection=True )
+TweenMachineCommand()
+cmds.select ( ctlSel )
