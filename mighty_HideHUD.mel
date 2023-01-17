@@ -1,0 +1,2 @@
+int $hudPlayback = getAttr ( "hudnode.visibility" );
+setAttr "hudnode.visibility" (!$hudPlayback);
