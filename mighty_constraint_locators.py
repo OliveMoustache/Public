@@ -32,6 +32,8 @@ for i in range(len(sel)):
     #### This is where you would customize the script and group the locators to your Sandbox or Temp group
     cmds.parent ( mightyLocator, 'mightyConstraint_Locators' )
     
-cmds.select ( 'mightyConstraint_Locators' )
+    cmds.select ( mightyLocator )
+    cmds.setKeyframe ( mightyLocator )
+    cmds.setKeyframe( v=1, at='blend' )
 
 print '///////////// mightyConstraint_Locators and group created //////////////\n'
