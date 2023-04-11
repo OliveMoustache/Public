@@ -8,12 +8,13 @@
 
 import maya.cmds as cmds 
 
+print '\n ///////////// mightyConstraint_Locators script started ///////////// \n'
 ## make a list from the selection
 ctrlList = cmds.ls(selection=True)
 
 ## create the Constraint Locators group if it doesn't already exists
-if cmds.objExists('Constraint_Loc'):
-    print 'Constraint loc group exists'
+if cmds.objExists('mightyConstraint_Locators'):
+    print '///////////// mightyConstraint_Locators group already exists ///////////// \n'
 else:
     cmds.group( em=True, name='mightyConstraint_Locators')
 
@@ -36,4 +37,4 @@ for i in range(len(sel)):
     cmds.setKeyframe ( mightyLocator )
     cmds.setKeyframe( v=1, at='blend' )
 
-print '///////////// mightyConstraint_Locators and group created //////////////\n'
+print '///////////// mightyConstraint_Locators and group created for select objects //////////////\n'
