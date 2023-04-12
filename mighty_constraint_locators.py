@@ -37,4 +37,4 @@ for i in range(len(sel)):
     cmds.setKeyframe ( mightyLocator )
     cmds.setKeyframe( v=1, at='blend' )
 
-print '///////////// mightyConstraint_Locators and group created for select objects //////////////\n'
+print '\n ///////////// mightyConstraint_Locators and group created for select objects //////////////\n'
