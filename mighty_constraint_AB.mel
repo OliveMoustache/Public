@@ -16,6 +16,7 @@
 // v1.1 2020 02 08 // Added object selected as variable
 // v1.2 2020 02 18 // Fixed some variable naming issues
 // v1.3 2021 07 27 // the locators are now created in the __TRASH__ folder
+// v1.4 2025 01 09 // removed the Trash Folder so now we create a mightyCONST group and parent the locators underneath
 
 
 
@@ -31,7 +32,11 @@ global proc mighty_constraint() {
     spaceLocator -name $mighty_const_loc_parent ;
     spaceLocator -name $mighty_const_loc_child ;
     
-    parent $mighty_const_loc_parent __TRASH__ ;
+    // Creation of masterGroup
+    group -em -name mightyCONST;
+    
+    // Parent new Loc to masterGroup
+    parent $mighty_const_loc_parent mightyCONST ;
     	
     setAttr ($mighty_const_loc_child+".scaleX") 10 ;
     setAttr ($mighty_const_loc_child+".scaleY") 10 ;
